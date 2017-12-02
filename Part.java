@@ -11,4 +11,19 @@ public class Part
   int spareQuantity;
   float price;
   Distribution distribution;
+
+
+  public Part(String inputID, String inputPartNumber, String inputDescription, PartType inputPartType, int inputQuantity, int inputSpareQuantity, float inputPrice, Distribution inputDistribution)
+  {
+    uniqueID = inputID;
+    partNumber = inputPartNumber;
+    description = inputDescription;
+    partType = inputPartType;
+    quantity = inputQuantity;
+    spareQuantity = inputSpareQuantity;
+    price = inputPrice;
+    distribution = inputDistribution;
+  }
+
+  public
 }

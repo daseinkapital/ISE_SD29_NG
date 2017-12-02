@@ -4,9 +4,9 @@ import java.lang.Math;
  */
 public class Distribution
 {
-  double min;
-  double mode;
-  double max;
+  private double min;
+  private double mode;
+  private double max;
 
 /**
  * This object holds the fields for the sampling of a distribution
