@@ -1,11 +1,25 @@
 import java.util.ArrayList;
 
+/**
+ * This class runs a simulation and outputs all of the results of those simulations
+ * 
+ * @author Rebeca Dominguez
+ */
 public class Simulation
 {
+	//the maximum number of iterations
 	int numberOfIterations;
+	//the list of parts to put through the simulation
 	ArrayList<Part> listOfParts;
+	//the lifetime of the aircraft in operating hours
 	int aircraftLifetime;
 
+	/**
+	 * This method creates a Simulation object.
+	 * @param inputNumberOfIterations the number of iterations to put the simulation through
+	 * @param inputListOfParts the parts to simulate
+	 * @param inputAircraftLifetime the lifetime of the aircraft (or when to stop the simulation)
+	 */
 	public Simulation(int inputNumberOfIterations, ArrayList<Part> inputListOfParts, int inputAircraftLifetime)
 	{
 		numberOfIterations = inputNumberOfIterations;
@@ -13,6 +27,10 @@ public class Simulation
 		aircraftLifetime = inputAircraftLifetime;
 	}
 
+	/**
+	 * This method goes through the number of iterations and collects the results into one place
+	 * @return the MCR and CPFH results of the multiple iterations
+	 */
 	public ArrayList<ArrayList<Float>> runSimulation()
 	{
 		ArrayList<Float> MCR = new ArrayList<Float>(numberOfIterations);
@@ -32,6 +50,10 @@ public class Simulation
 		return output;
 	}
 
+	/**
+	 * This method runs through a single iteration for a simulation
+	 * @return the MCR and CPFH of the simulation
+	 */
 	private float[] runIteration()
 	{
 		float[] results = new float[2];
@@ -56,6 +78,10 @@ public class Simulation
 		return results;
 	}
 
+	/**
+	 * This method returns the index of the next part to break.
+	 * @return the index of the next part to break.
+	 */
 	private int findEarliestFailureTime()
 	{
 		int minFailureTime = aircraftLifetime;
@@ -72,6 +98,9 @@ public class Simulation
 		return indexOfPart;
 	}
 
+	/**
+	 * This method resets all of the failureTimes since they've all been changed from the iteration.
+	 */
 	private void resetForNextIteration()
 	{
 		for (int i = 0; i < listOfParts.size(); i++)
