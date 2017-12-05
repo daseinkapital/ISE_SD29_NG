@@ -1,69 +1,52 @@
 import java.lang.Math;
+
 /**
  * This class contains the ability to create and sample from distributions.
  */
 public class Distribution
 {
-  private double min;
-  private double mode;
-  private double max;
+	private float min;
+	private float mode;
+	private float max;
 
-/**
- * This object holds the fields for the sampling of a distribution
- * @param  double minInput      the minimum of the distribution
- * @param  double modeInput     the maximum of the distribution
- * @param  double maxInput      the mode of the distribution
- * @return       returns the Distribution object with min, mode, and max
- */
-  public Distribution(double minInput, double modeInput, double maxInput)
-  {
-    min = minInput;
-    mode = modeInput;
-    max = maxInput;
-  }
+	public Distribution(float minInput, float modeInput, float maxInput)
+	{
+		min = minInput;
+		mode = modeInput;
+		max = maxInput;
+	}
 
-/**
- * This method allows the user to sample a pre-set Distribution object.
- * @return the value pulled from the distribution
- */
-  public double sampleTriangular()
-  {
-    double a = min;
-    double b = max;
-    double c = mode;
-    double F = (c - a) / (b - a);
-    double random = Math.random();
-    if (random < F)
-    {
-      return a + Math.sqrt(random * (b - a) * (c - a));
-    }
-    else
-    {
-      return b - Math.sqrt((1 - random) * (b - a) * (b - c));
-    }
-  }
 
-/**
- * This method allows the program to sample from a triangular distribution without having to set up a Distribution object.
- * @param  double minInput      the minimum of the distribution
- * @param  double modeInput     the maximum of the distribution
- * @param  double maxInput      the mode of the distribution
- * @return        the value pulled from the distribution
- */
-  public static double sampleTriangular(double minInput, double maxInput, double modeInput)
-  {
-    double a = minInput;
-    double b = maxInput;
-    double c = modeInput;
-    double F = (c - a) / (b - a);
-    double random = Math.random();
-    if (random < F)
-    {
-      return a + Math.sqrt(random * (b - a) * (c - a));
-    }
-    else
-    {
-      return b - Math.sqrt((1 - random) * (b - a) * (b - c));
-    }
-  }
+	public double sampleTriangular()
+	{
+		float a = min;
+		float b = max;
+		float c = mode;
+		float F = (c - a) / (b - a);
+		float random = (float) Math.random();
+		if (random < F)
+		{
+			return a + Math.sqrt(random * (b - a) * (c - a));
+		} else
+		{
+			return b - Math.sqrt((1 - random) * (b - a) * (b - c));
+		}
+	}
+
+
+	public static float sampleTriangular(float minInput, float maxInput, float modeInput)
+	{
+		float a = minInput;
+		float b = maxInput;
+		float c = modeInput;
+		float F = (c - a) / (b - a);
+		float random = (float) Math.random();
+		if (random < F)
+		{
+			return (float) (a + Math.sqrt(random * (b - a) * (c - a)));
+		} else
+		{
+			return (float) (b - Math.sqrt((1 - random) * (b - a) * (b - c)));
+		}
+	}
 }

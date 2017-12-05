@@ -3,14 +3,15 @@
 */
 public class Part
 {
-  String uniqueID;
-  String partNumber;
-  String description;
-  PartType partType;
-  int quantity;
-  int spareQuantity;
-  float price;
-  Distribution distribution;
+  private String uniqueID;
+  private String partNumber;
+  private String description;
+  private PartType partType;
+  private int quantity;
+  private int spareQuantity;
+  private float price;
+  private Distribution distribution;
+  private int failureTime;
 
 
   public Part(String inputID, String inputPartNumber, String inputDescription, PartType inputPartType, int inputQuantity, int inputSpareQuantity, float inputPrice, Distribution inputDistribution)
@@ -23,7 +24,22 @@ public class Part
     spareQuantity = inputSpareQuantity;
     price = inputPrice;
     distribution = inputDistribution;
+    failureTime = (int) Math.round(distribution.sampleTriangular());
   }
 
-  public
+  public void generateNewFailureTime(int currentTime)
+  {
+	  failureTime = currentTime + (int) Math.round(distribution.sampleTriangular());
+  }
+  
+  public float getPrice()
+  {
+	  return price;
+  }
+  
+  public int getFailureTime()
+  {
+	  return failureTime;
+  }
+  
 }
