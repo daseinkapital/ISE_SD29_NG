@@ -42,4 +42,8 @@ public class Part
 	  return failureTime;
   }
   
+  public void resetFailureTime()
+  {
+	  failureTime = (int) Math.round(distribution.sampleTriangular());
+  }
 }

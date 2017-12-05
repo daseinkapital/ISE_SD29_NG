@@ -39,25 +39,28 @@ public class Simulation
 		int currentTime;
 		float totalDowntime = 0;
 		int earliestIndex;
-		
-		do 
+
+		do
 		{
 			earliestIndex = findEarliestFailureTime();
+			if (earliestIndex == -1)
+				break;
 			totalCost += listOfParts.get(earliestIndex).getPrice();
 			currentTime = listOfParts.get(earliestIndex).getFailureTime();
 			listOfParts.get(earliestIndex).generateNewFailureTime(currentTime);
 		} while (currentTime <= aircraftLifetime);
-		
+
 		results[0] = totalCost / aircraftLifetime;
 		results[1] = (float) 0.0;
+		resetForNextIteration();
 		return results;
 	}
-	
+
 	private int findEarliestFailureTime()
 	{
 		int minFailureTime = aircraftLifetime;
 		int indexOfPart = -1;
-		
+
 		for (int i = 0; i < listOfParts.size(); i++)
 		{
 			if (minFailureTime > listOfParts.get(i).getFailureTime())
@@ -67,5 +70,13 @@ public class Simulation
 			}
 		}
 		return indexOfPart;
+	}
+
+	private void resetForNextIteration()
+	{
+		for (int i = 0; i < listOfParts.size(); i++)
+		{
+			listOfParts.get(i).resetFailureTime();
+		}
 	}
 }
