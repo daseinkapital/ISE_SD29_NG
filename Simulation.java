@@ -16,6 +16,7 @@ public class Simulation
 
 	/**
 	 * This method creates a Simulation object.
+	 * 
 	 * @param inputNumberOfIterations the number of iterations to put the simulation through
 	 * @param inputListOfParts the parts to simulate
 	 * @param inputAircraftLifetime the lifetime of the aircraft (or when to stop the simulation)

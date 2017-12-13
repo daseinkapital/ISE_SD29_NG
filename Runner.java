@@ -1,6 +1,18 @@
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * The class that runs the program and creates the GUI.
@@ -11,6 +23,7 @@ public class Runner
 {
 	// the simulation to run
 	static Simulation simulation;
+	static File returnFile;
 
 	/**
 	 * This is the main method that runs.
@@ -20,8 +33,7 @@ public class Runner
 	 */
 	public static void main(String args[])
 	{
-		args = new String[1];
-		args[0] = "Test.csv";
+		launchFrame();
 		RandomAccessFile partFile = null;
 
 		if (args.length > 1)
@@ -32,7 +44,10 @@ public class Runner
 
 		try
 		{
-			partFile = new RandomAccessFile(args[0], "r");
+			if (returnFile != null)
+				partFile = new RandomAccessFile(returnFile, "r");
+			else
+				System.exit(0);
 		}
 		catch (IOException e1)
 		{
@@ -40,7 +55,7 @@ public class Runner
 		}
 
 		ArrayList<Part> parts = readInFile(partFile);
-		simulation = new Simulation(10, parts, 10000);
+		simulation = new Simulation(1000, parts, 10000);
 		ArrayList<ArrayList<Float>> results = simulation.runSimulation();
 		System.out.println(results.get(0).toString());
 	}
@@ -183,5 +198,44 @@ public class Runner
 			}
 		}
 		return properLine;
+	}
+	
+	private static void launchFrame()
+	{
+		JFrame frame = new JFrame("CPFH Simulator");
+		JDialog dialog = new JDialog(frame, "CPFH Simulator", true);
+		JButton accept = new JButton("Upload File");
+		JButton cancel = new JButton("Cancel");
+		
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setLayout(new FlowLayout());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dialog.setLocationRelativeTo(null);
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
+		chooser.setFileFilter(filter);
+		chooser.setControlButtonsAreShown(false);
+		
+		accept.addActionListener(new ActionListener(){  
+		    public void actionPerformed(ActionEvent e){  
+	            frame.setVisible(false);
+	            returnFile = chooser.getSelectedFile();
+	    }  
+		});
+		
+		cancel.addActionListener(new ActionListener(){  
+		    public void actionPerformed(ActionEvent e){  
+		    	System.exit(0);
+	    }  
+		});  
+		
+		dialog.getContentPane().add(chooser);
+		dialog.getContentPane().add(accept);
+		dialog.getContentPane().add(cancel);
+		frame.pack();
+		dialog.pack();
+		frame.setVisible(true);
+		dialog.setVisible(true);
+		
 	}
 }
