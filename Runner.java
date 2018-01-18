@@ -48,8 +48,7 @@ public class Runner
 				partFile = new RandomAccessFile(returnFile, "r");
 			else
 				System.exit(0);
-		}
-		catch (IOException e1)
+		} catch (IOException e1)
 		{
 			System.out.println("Issue with opening file.");
 		}
@@ -85,8 +84,7 @@ public class Runner
 		{
 			line = partsFile.readLine();
 			line = partsFile.readLine();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			System.out.println("File is empty or only contains 1 line.");
 		}
@@ -132,20 +130,24 @@ public class Runner
 			{
 				currentPart = new Part(fields[0], fields[1], fields[2], partType, quantity, spareQuantity, price,
 						distribution);
-				parts.add(currentPart);
-			}
-			else // if the part has a lifetime
+				for (int x = quantity; x > 0; x--)
+				{
+					parts.add(currentPart);
+				}
+			} else // if the part has a lifetime
 			{
 				currentPartWithLifetime = new PartWithLifetime(fields[0], fields[1], fields[2], partType, quantity,
 						spareQuantity, price, distribution, Integer.parseInt(fields[4]));
-				parts.add(currentPartWithLifetime);
+				for (int y = quantity; y > 0; y--)
+				{
+					parts.add(currentPartWithLifetime);
+				}
 			}
 
 			try
 			{
 				line = partsFile.readLine();
-			}
-			catch (IOException e)
+			} catch (IOException e)
 			{
 				System.out.println("Had trouble reading a line.");
 			}
@@ -159,14 +161,15 @@ public class Runner
 	 * everything goes into the proper index as a line that would not have that
 	 * problem.
 	 * 
-	 * @param line the line to clean up
+	 * @param line
+	 *            the line to clean up
 	 * @return a standard version of the line
 	 */
 	private static String[] cleanUpLine(String[] line)
 	{
 		String[] properLine = new String[13];
 		int counter = 0;
-		if (line.length == 13) //if the line is already standarized
+		if (line.length == 13) // if the line is already standarized
 			return line;
 		else
 		{
@@ -174,23 +177,21 @@ public class Runner
 			String toJoin = "";
 			for (int i = 0; i < line.length; i++)
 			{
-				if (joining) //if we're in the middle of something like "1,000"
+				if (joining) // if we're in the middle of something like "1,000"
 				{
 					toJoin += line[i].replace("\"", "");
-					if (line[i].contains("\"")) //if we're at the end of an accidentally split number
+					if (line[i].contains("\"")) // if we're at the end of an accidentally split number
 					{
 						properLine[counter] = toJoin.trim();
 						counter++;
 						toJoin = "";
 						joining = false;
 					}
-				}
-				else if (line[i].contains("\"")) //if we're at the beginning of an accidentally split number
+				} else if (line[i].contains("\"")) // if we're at the beginning of an accidentally split number
 				{
 					joining = true;
 					toJoin = line[i].replace("\"", "");
-				}
-				else
+				} else
 				{
 					properLine[counter] = line[i].trim();
 					counter++;
@@ -199,14 +200,14 @@ public class Runner
 		}
 		return properLine;
 	}
-	
+
 	private static void launchFrame()
 	{
 		JFrame frame = new JFrame("CPFH Simulator");
 		JDialog dialog = new JDialog(frame, "CPFH Simulator", true);
 		JButton accept = new JButton("Upload File");
 		JButton cancel = new JButton("Cancel");
-		
+
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setLayout(new FlowLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -215,20 +216,24 @@ public class Runner
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
 		chooser.setFileFilter(filter);
 		chooser.setControlButtonsAreShown(false);
-		
-		accept.addActionListener(new ActionListener(){  
-		    public void actionPerformed(ActionEvent e){  
-	            frame.setVisible(false);
-	            returnFile = chooser.getSelectedFile();
-	    }  
+
+		accept.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				frame.setVisible(false);
+				returnFile = chooser.getSelectedFile();
+			}
 		});
-		
-		cancel.addActionListener(new ActionListener(){  
-		    public void actionPerformed(ActionEvent e){  
-		    	System.exit(0);
-	    }  
-		});  
-		
+
+		cancel.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		});
+
 		dialog.getContentPane().add(chooser);
 		dialog.getContentPane().add(accept);
 		dialog.getContentPane().add(cancel);
@@ -236,6 +241,6 @@ public class Runner
 		dialog.pack();
 		frame.setVisible(true);
 		dialog.setVisible(true);
-		
+
 	}
 }
