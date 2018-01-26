@@ -54,9 +54,15 @@ public class Runner
 		}
 
 		ArrayList<Part> parts = readInFile(partFile);
-		simulation = new Simulation(1000, parts, 10000);
+		simulation = new Simulation(10, parts, 10000);
 		ArrayList<ArrayList<Float>> results = simulation.runSimulation();
 		System.out.println(results.get(0).toString());
+		JFrame f = new JFrame("CPFH Graph");
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.add(new GraphingData(results.get(0)));
+		f.setSize(1000,1000);
+		f.setLocation(200,200);
+		f.setVisible(true);
 	}
 
 	/**
